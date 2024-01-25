@@ -3,7 +3,7 @@ import MovieCard from "./MovieCard"
 
 export default function MovieList() {
     const movies=getAllMovies()
-    console.log("list",movies)
+    // console.log("list",movies)
 
   return (
     <div className="content">

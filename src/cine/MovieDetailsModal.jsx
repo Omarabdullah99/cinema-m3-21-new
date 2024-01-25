@@ -1,6 +1,25 @@
 /* eslint-disable react/prop-types */
 
-export default function MovieDetailsModal({ movie,setShowmodal }) {
+import { useContext } from "react";
+import { MovieContext } from "../context";
+
+export default function MovieDetailsModal({ movie, setShowmodal }) {
+  const { cartData, setCartData } = useContext(MovieContext);
+  const hadleAddToCart=(movie)=>{
+    const found = cartData.find((item) => {
+      return item.id === movie.id;
+    });
+
+    if(!found){
+      setCartData([
+        ...cartData,
+        movie
+      ])
+    }else{
+      console.log("movie already existes")
+    }
+
+  }
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[984px] p-4 max-h-[90vh] overflow-auto">
@@ -21,19 +40,21 @@ export default function MovieDetailsModal({ movie,setShowmodal }) {
               <div></div>
             </div>
             <p className="text-sm lg:text-base mb-8 lg:mb-16">
-            {movie.description}
+              {movie.description}
             </p>
             <div className="grid lg:grid-cols-2 gap-2">
-              <a
+              <button
                 className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
                 href="#"
+                onClick={() => hadleAddToCart( movie)}
               >
                 <img src="tag.svg" alt="" />
                 <span>${movie.price} | Add to Cart</span>
-              </a>
+              </button>
               <a
                 className="border border-[#74766F] rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#6F6F6F] dark:text-gray-200 font-semibold text-sm"
-                href="#" onClick={()=>setShowmodal(false)}
+                href="#"
+                onClick={() => setShowmodal(false)}
               >
                 Cancel
               </a>
