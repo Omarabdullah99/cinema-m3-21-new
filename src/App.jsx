@@ -1,25 +1,31 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import MovieList from "./cine/MovieList";
-import { MovieContext } from "./context";
+import { MovieContext, ThemeContext } from "./context";
 
 export default function App() {
-  const [cartData,setCartData]=useState([])
+  const [cartData, setCartData] = useState([]);
   // console.log('apicontext-addCard',cartData)
+
+  const [darkMode, setDarkMode] = useState(true);
   return (
     <div>
-      <MovieContext.Provider value={{cartData,setCartData}}>
-        <Header />
-        <main>
-          <div className="container grid lg:grid-cols-[218px_1fr] gap-[3.5rem]">
-            <Sidebar />
-            <MovieList />
+      <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
+        <MovieContext.Provider value={{ cartData, setCartData }}>
+          <div className={`h-full w-full ${darkMode ? "dark" : ""}`}>
+            <Header />
+            <main>
+              <div className="container grid lg:grid-cols-[218px_1fr] gap-[3.5rem]">
+                <Sidebar />
+                <MovieList />
+              </div>
+            </main>
+            <Footer />
           </div>
-        </main>
-        <Footer />
-      </MovieContext.Provider>
+        </MovieContext.Provider>
+      </ThemeContext.Provider>
     </div>
   );
 }
